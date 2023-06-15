@@ -1,4 +1,6 @@
-name: test
+name: tests
+
+permissions: write-all
 
 on:
   push:
@@ -7,7 +9,7 @@ on:
   pull_request:
     branches:
       - "*"
-git a
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,5 +30,12 @@ jobs:
         run: |
           python -m pytest -v tests
 
+      - name: Build coverage file
+        run: |
+          python -m pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov . | tee pytest-coverage.txt
 
-    
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml
