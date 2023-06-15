@@ -27,7 +27,6 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest -v tests
-          pytest --cov=myproj tests/
 
       - name: Pytest coverage comment
         uses: MishaKav/pytest-coverage-comment@main
